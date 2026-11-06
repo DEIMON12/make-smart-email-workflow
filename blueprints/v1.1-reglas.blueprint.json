@@ -1,0 +1,1123 @@
+{
+    "name": "make-email-automation v1.1 (reglas)",
+    "flow": [
+        {
+            "id": 1,
+            "module": "google-email:triggerWatchNewEmails",
+            "version": 4,
+            "parameters": {
+                "__IMTCONN__": 12163577,
+                "filterType": "gmailSearch",
+                "format": "full",
+                "q": "in:inbox is:unread -from:me -category:(promotions OR social OR updates OR forums) -from:(noreply OR no-reply OR mailer-daemon OR postmaster) -subject:(\"respuesta automática\" OR \"automatic reply\" OR \"out of office\" OR \"fuera de la oficina\") -unsubscribe -\"cancelar suscripción\" -\"cancelar suscripcion\" -\"anular suscripción\" -\"darte de baja\"",
+                "markSeen": true,
+                "limit": 10
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 0
+                },
+                "restore": {
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "label": "Gmail connection",
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google-email"
+                            }
+                        },
+                        "filterType": {
+                            "label": "Gmail filter"
+                        },
+                        "format": {
+                            "label": "Full content"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google-email",
+                        "label": "Connection",
+                        "required": true
+                    },
+                    {
+                        "name": "filterType",
+                        "type": "select",
+                        "label": "Filter type",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "simpleSearch",
+                                "gmailSearch"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "format",
+                        "type": "select",
+                        "label": "Content format",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "full",
+                                "raw",
+                                "metadata",
+                                "minimal"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "q",
+                        "type": "text",
+                        "label": "Query"
+                    },
+                    {
+                        "name": "markSeen",
+                        "type": "boolean",
+                        "label": "Mark email message(s) as read when fetched"
+                    },
+                    {
+                        "name": "limit",
+                        "type": "uinteger",
+                        "label": "Limit",
+                        "validate": {
+                            "max": 500
+                        },
+                        "required": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "Message ID"
+                    },
+                    {
+                        "name": "threadId",
+                        "type": "text",
+                        "label": "Thread ID"
+                    },
+                    {
+                        "name": "internalDate",
+                        "type": "date",
+                        "label": "Date"
+                    },
+                    {
+                        "name": "subject",
+                        "type": "text",
+                        "label": "Subject",
+                        "condition": true
+                    },
+                    {
+                        "name": "fromName",
+                        "type": "text",
+                        "label": "From (name)",
+                        "condition": true
+                    },
+                    {
+                        "name": "fromEmail",
+                        "type": "text",
+                        "label": "From (email)",
+                        "condition": true
+                    },
+                    {
+                        "name": "to",
+                        "spec": {
+                            "spec": [
+                                {
+                                    "name": "name",
+                                    "type": "text",
+                                    "label": "Name"
+                                },
+                                {
+                                    "name": "email",
+                                    "type": "text",
+                                    "label": "Email"
+                                }
+                            ],
+                            "type": "collection"
+                        },
+                        "type": "array",
+                        "label": "To",
+                        "condition": true
+                    },
+                    {
+                        "name": "cc",
+                        "spec": [
+                            {
+                                "name": "email",
+                                "type": "email",
+                                "label": "Email"
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "CC",
+                        "condition": true
+                    },
+                    {
+                        "name": "bcc",
+                        "spec": [
+                            {
+                                "name": "email",
+                                "type": "email",
+                                "label": "Email"
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "BCC",
+                        "condition": true
+                    },
+                    {
+                        "name": "snippet",
+                        "type": "text",
+                        "label": "Snippet"
+                    },
+                    {
+                        "name": "fullTextBody",
+                        "type": "text",
+                        "label": "Full text body",
+                        "condition": true
+                    },
+                    {
+                        "name": "htmlBody",
+                        "type": "text",
+                        "label": "HTML body",
+                        "condition": true
+                    },
+                    {
+                        "name": "hasAttachment",
+                        "type": "boolean",
+                        "label": "Has attachment",
+                        "condition": true
+                    },
+                    {
+                        "name": "hasMedia",
+                        "type": "boolean",
+                        "label": "Has media",
+                        "condition": true
+                    },
+                    {
+                        "name": "sysFolders",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "System folder ID"
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "System folder name"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "System folders"
+                    },
+                    {
+                        "name": "categoryFolders",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "Category folder ID"
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Category folder name"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Category folders"
+                    },
+                    {
+                        "name": "userLabelFolders",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "User label folder ID"
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "User label folder name"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "User label folders"
+                    },
+                    {
+                        "name": "labelIds",
+                        "spec": {
+                            "type": "text"
+                        },
+                        "type": "array",
+                        "label": "Message folder IDs"
+                    },
+                    {
+                        "name": "headers",
+                        "spec": [
+                            {
+                                "name": "Delivered-To",
+                                "type": "text",
+                                "label": "Delivered-To"
+                            },
+                            {
+                                "name": "Received",
+                                "type": "text",
+                                "label": "Received"
+                            },
+                            {
+                                "name": "Date",
+                                "type": "text",
+                                "label": "Date (header)"
+                            },
+                            {
+                                "name": "X-Original-Sender",
+                                "type": "text"
+                            },
+                            {
+                                "name": "Reply-To",
+                                "type": "text"
+                            },
+                            {
+                                "name": "Subject",
+                                "type": "text",
+                                "label": "Subject"
+                            },
+                            {
+                                "name": "From",
+                                "type": "text",
+                                "label": "From"
+                            },
+                            {
+                                "name": "To",
+                                "type": "text",
+                                "label": "To"
+                            },
+                            {
+                                "name": "Message-ID",
+                                "type": "text",
+                                "label": "Message-ID"
+                            },
+                            {
+                                "name": "In-Reply-To",
+                                "type": "text",
+                                "label": "In-Reply-To"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Headers",
+                        "condition": true
+                    },
+                    {
+                        "name": "sizeEstimate",
+                        "type": "number",
+                        "label": "Size estimate"
+                    },
+                    {
+                        "name": "historyId",
+                        "type": "text",
+                        "label": "History ID"
+                    }
+                ],
+                "advanced": true
+            }
+        },
+        {
+            "id": 2,
+            "module": "builtin:BasicIfElse",
+            "version": 1,
+            "filter": {
+                "name": "Prefiltro: sin respuestas automáticas ni remitentes de sistema",
+                "conditions": [
+                    [
+                        {
+                            "a": "{{1.subject}}",
+                            "o": "text:notpattern:ci",
+                            "b": "respuesta autom[aá]tica|automatic reply|auto-?reply|fuera de (la )?oficina|out of office|delivery status notification|no se pudo entregar|undeliverable"
+                        },
+                        {
+                            "a": "{{1.fromEmail}}",
+                            "o": "text:notpattern:ci",
+                            "b": "no-?reply|mailer-daemon|postmaster|notifications?@"
+                        }
+                    ]
+                ]
+            },
+            "mapper": null,
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 0,
+                    "name": "Clasificar correo"
+                }
+            },
+            "branches": [
+                {
+                    "merge": true,
+                    "label": "Urgente",
+                    "type": "condition",
+                    "flow": [
+                        {
+                            "id": 10,
+                            "module": "placeholder:Placeholder",
+                            "metadata": {
+                                "designer": {
+                                    "x": 600,
+                                    "y": -450
+                                }
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        [
+                            {
+                                "a": "{{1.subject}} {{1.fullTextBody}}",
+                                "o": "text:pattern:ci",
+                                "b": "\\b(urge\\b|urgen|emergencia|asap\\b)"
+                            }
+                        ]
+                    ]
+                },
+                {
+                    "merge": true,
+                    "label": "Facturación",
+                    "type": "condition",
+                    "flow": [
+                        {
+                            "id": 11,
+                            "module": "placeholder:Placeholder",
+                            "metadata": {
+                                "designer": {
+                                    "x": 600,
+                                    "y": -150
+                                }
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        [
+                            {
+                                "a": "{{1.subject}} {{1.fullTextBody}}",
+                                "o": "text:pattern:ci",
+                                "b": "\\b(factur|pag[aeéoóu]|cobr[ao]|reembols|cfdi)"
+                            }
+                        ]
+                    ]
+                },
+                {
+                    "merge": true,
+                    "label": "Consulta",
+                    "type": "condition",
+                    "flow": [
+                        {
+                            "id": 12,
+                            "module": "placeholder:Placeholder",
+                            "metadata": {
+                                "designer": {
+                                    "x": 600,
+                                    "y": 150
+                                }
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        [
+                            {
+                                "a": "{{1.subject}} {{1.fullTextBody}}",
+                                "o": "text:pattern:ci",
+                                "b": "\\b(duda|consult|pregunt)"
+                            }
+                        ]
+                    ]
+                },
+                {
+                    "merge": true,
+                    "disabled": false,
+                    "label": "",
+                    "type": "else",
+                    "flow": [
+                        {
+                            "id": 13,
+                            "module": "placeholder:Placeholder",
+                            "metadata": {
+                                "designer": {
+                                    "x": 600,
+                                    "y": 450
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "module": "builtin:BasicMerge",
+            "version": 1,
+            "mapper": null,
+            "metadata": {
+                "designer": {
+                    "x": 900,
+                    "y": 0,
+                    "name": "Unir clasificación"
+                }
+            },
+            "outputs": [
+                {
+                    "name": "categoria",
+                    "mappings": [
+                        "Urgente",
+                        "Facturación",
+                        "Consulta",
+                        "General"
+                    ]
+                },
+                {
+                    "name": "prioridad",
+                    "mappings": [
+                        "Alta",
+                        "Media",
+                        "Baja",
+                        "Baja"
+                    ]
+                },
+                {
+                    "name": "plantilla",
+                    "mappings": [
+                        "<p>Hola,</p><p>Hemos recibido tu mensaje y lo hemos marcado como <strong>Urgente</strong> con prioridad <strong>Alta</strong>. Nuestro equipo lo atenderá lo antes posible.</p><p>Saludos.</p>",
+                        "<p>Hola,</p><p>Hemos recibido tu mensaje relacionado con <strong>Facturación</strong> y lo hemos clasificado con prioridad <strong>Media</strong>. Revisaremos tu solicitud y te responderemos pronto.</p><p>Saludos.</p>",
+                        "<p>Hola,</p><p>Hemos recibido tu consulta y la hemos clasificado como <strong>Consulta</strong>, con prioridad <strong>Baja</strong>. Nuestro equipo revisará tu mensaje y te responderá pronto.</p><p>Saludos.</p>",
+                        "<p>Hola,</p><p>Hemos recibido tu mensaje y lo hemos clasificado como <strong>General</strong>, con prioridad <strong>Baja</strong>. Revisaremos tu solicitud y te responderemos pronto.</p><p>Saludos.</p>"
+                    ]
+                }
+            ],
+            "filters": [
+                null,
+                null,
+                null,
+                null
+            ]
+        },
+        {
+            "id": 6,
+            "module": "google-email:sendAnEmail",
+            "version": 4,
+            "parameters": {
+                "__IMTCONN__": 12163577
+            },
+            "mapper": {
+                "to": [
+                    "{{1.fromEmail}}"
+                ],
+                "subject": "Re: {{1.subject}}",
+                "bodyType": "rawHtml",
+                "content": "{{5.plantilla}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1200,
+                    "y": 0,
+                    "name": "Responder"
+                },
+                "restore": {
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "label": "Gmail connection"
+                        }
+                    },
+                    "expect": {
+                        "bodyType": {
+                            "mode": "chose",
+                            "label": "Raw HTML",
+                            "nested": [
+                                {
+                                    "help": "You can use complete HTML code.",
+                                    "name": "content",
+                                    "type": "text",
+                                    "label": "Content"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google-email",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "to",
+                        "spec": {
+                            "type": "email",
+                            "label": "Recipient email address",
+                            "required": true,
+                            "validate": true
+                        },
+                        "type": "array",
+                        "label": "To",
+                        "labels": {
+                            "add": "Add recipient",
+                            "edit": "Edit recipient"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "subject",
+                        "type": "text",
+                        "label": "Subject"
+                    },
+                    {
+                        "name": "bodyType",
+                        "type": "select",
+                        "label": "Body type",
+                        "mappable": false,
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "rawHtml",
+                                "collection"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "content",
+                        "type": "text",
+                        "label": "Content"
+                    },
+                    {
+                        "name": "attachments",
+                        "spec": {
+                            "spec": [
+                                {
+                                    "name": "filename",
+                                    "type": "filename",
+                                    "label": "File name",
+                                    "required": true,
+                                    "semantic": "file:name"
+                                },
+                                {
+                                    "name": "data",
+                                    "type": "buffer",
+                                    "label": "Data",
+                                    "required": true,
+                                    "semantic": "file:data"
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Attachment"
+                        },
+                        "type": "array",
+                        "label": "Attachments",
+                        "labels": {
+                            "add": "Add attachment",
+                            "edit": "Edit attachment"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "type": "select",
+                        "label": "From",
+                        "dynamic": true,
+                        "advanced": true
+                    },
+                    {
+                        "name": "cc",
+                        "spec": {
+                            "type": "email",
+                            "label": "Recipient email address"
+                        },
+                        "type": "array",
+                        "label": "CC recipients",
+                        "labels": {
+                            "add": "Add CC recipient",
+                            "edit": "Edit CC recipient"
+                        },
+                        "advanced": true,
+                        "validate": false
+                    },
+                    {
+                        "name": "bcc",
+                        "spec": {
+                            "type": "email",
+                            "label": "Recipient email address"
+                        },
+                        "type": "array",
+                        "label": "BCC recipients",
+                        "labels": {
+                            "add": "Add BCC recipient",
+                            "edit": "Edit BCC recipient"
+                        },
+                        "advanced": true,
+                        "validate": false
+                    },
+                    {
+                        "name": "emailHeaders",
+                        "spec": {
+                            "spec": [
+                                {
+                                    "name": "key",
+                                    "type": "text",
+                                    "label": "Key",
+                                    "required": true
+                                },
+                                {
+                                    "name": "value",
+                                    "type": "text",
+                                    "label": "Value"
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Email header"
+                        },
+                        "type": "array",
+                        "label": "Additional email headers",
+                        "labels": {
+                            "add": "Add email header"
+                        },
+                        "advanced": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 7,
+            "module": "google-sheets:addRow",
+            "version": 2,
+            "parameters": {
+                "__IMTCONN__": 12185271
+            },
+            "mapper": {
+                "mode": "fromAll",
+                "spreadsheetId": "REEMPLAZAR_CON_EL_ID_DE_TU_HOJA",
+                "sheetId": "Registro de Correos",
+                "includesHeaders": true,
+                "useColumnHeaders": true,
+                "insertUnformatted": false,
+                "valueInputOption": "USER_ENTERED",
+                "values": {
+                    "Fecha": "{{formatDate(1.internalDate; \"YYYY-MM-DD HH:mm\"; \"America/Mexico_City\")}}",
+                    "Remitente": "{{1.fromEmail}}",
+                    "Asunto": "{{1.subject}}",
+                    "Categoría": "{{5.categoria}}",
+                    "Prioridad": "{{5.prioridad}}",
+                    "Versión Make": "v1.1 - Reglas",
+                    "Respuesta Enviada": "{{5.categoria}}"
+                }
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1500,
+                    "y": 0,
+                    "name": "Registrar"
+                },
+                "restore": {
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "label": "Google connection"
+                        }
+                    },
+                    "expect": {
+                        "mode": {
+                            "mode": "chose",
+                            "label": "Select from all",
+                            "nested": [
+                                {
+                                    "rpc": {
+                                        "url": "rpc://google-sheets@2/rpcSpreadsheet",
+                                        "label": "ID Finder",
+                                        "parameters": [
+                                            {
+                                                "help": "Leave the field empty to display all files. Enter the filename or its part(s).",
+                                                "name": "spreadsheetName",
+                                                "type": "text",
+                                                "label": "Filename Keywords"
+                                            },
+                                            {
+                                                "name": "enableSharedDrives",
+                                                "type": "boolean",
+                                                "label": "Search in Shared Drives",
+                                                "nested": [
+                                                    {
+                                                        "help": "Must have **domain administrator** access.\nIf set to `Yes`, all shared drives will be searched for results.",
+                                                        "name": "useDomainAdminAccess",
+                                                        "type": "select",
+                                                        "label": "Use Domain Admin Access",
+                                                        "options": {
+                                                            "store": [
+                                                                {
+                                                                    "label": "Yes",
+                                                                    "value": true
+                                                                },
+                                                                {
+                                                                    "label": "No",
+                                                                    "value": false,
+                                                                    "default": true
+                                                                }
+                                                            ],
+                                                            "nested": [
+                                                                {
+                                                                    "name": "drive",
+                                                                    "type": "select",
+                                                                    "label": "Shared Drive",
+                                                                    "options": "rpc://google-sheets@2/listSharedDrives",
+                                                                    "required": true
+                                                                }
+                                                            ]
+                                                        },
+                                                        "mappable": false,
+                                                        "required": true
+                                                    }
+                                                ],
+                                                "default": false,
+                                                "required": true
+                                            }
+                                        ]
+                                    },
+                                    "help": "Find the Spreadsheet ID by clicking **ID Finder** .\ne.g. 1a1ADVruoa0YztkOpKM6BWXIYO9GWaA",
+                                    "name": "spreadsheetId",
+                                    "type": "text",
+                                    "label": "Spreadsheet ID",
+                                    "nested": [
+                                        {
+                                            "name": "sheetId",
+                                            "type": "select",
+                                            "label": "Sheet Name",
+                                            "options": {
+                                                "store": "rpc://google-sheets@2/rpcSheet",
+                                                "nested": [
+                                                    {
+                                                        "name": "includesHeaders",
+                                                        "type": "select",
+                                                        "label": "Table contains headers",
+                                                        "default": true,
+                                                        "options": [
+                                                            {
+                                                                "label": "Yes",
+                                                                "value": true,
+                                                                "nested": [
+                                                                    {
+                                                                        "help": "When enabled, column headers are used as IDs. This allows the module to continue working even if new columns are inserted into the table, without needing to remap values.",
+                                                                        "name": "useColumnHeaders",
+                                                                        "type": "select",
+                                                                        "label": "Use column headers as IDs of the columns",
+                                                                        "nested": [
+                                                                            "rpc://google-sheets@2/rpcSheetInput"
+                                                                        ],
+                                                                        "default": false,
+                                                                        "options": [
+                                                                            {
+                                                                                "label": "Yes",
+                                                                                "value": true
+                                                                            },
+                                                                            {
+                                                                                "label": "No",
+                                                                                "value": false
+                                                                            }
+                                                                        ],
+                                                                        "mappable": false,
+                                                                        "required": true
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "label": "No",
+                                                                "value": false,
+                                                                "nested": [
+                                                                    {
+                                                                        "help": "Please select the column range you want to work with.",
+                                                                        "name": "tableFirstRow",
+                                                                        "type": "select",
+                                                                        "label": "Column range",
+                                                                        "options": [
+                                                                            {
+                                                                                "label": "A-Z",
+                                                                                "value": "A1:Z1",
+                                                                                "nested": "rpc://google-sheets@2/rpcSheetInput"
+                                                                            },
+                                                                            {
+                                                                                "label": "A-BZ",
+                                                                                "value": "A1:BZ1",
+                                                                                "nested": "rpc://google-sheets@2/rpcSheetInput"
+                                                                            },
+                                                                            {
+                                                                                "label": "A-CZ",
+                                                                                "value": "A1:CZ1",
+                                                                                "nested": "rpc://google-sheets@2/rpcSheetInput"
+                                                                            },
+                                                                            {
+                                                                                "label": "A-DZ",
+                                                                                "value": "A1:DZ1",
+                                                                                "nested": "rpc://google-sheets@2/rpcSheetInput"
+                                                                            },
+                                                                            {
+                                                                                "label": "A-MZ",
+                                                                                "value": "A1:MZ1",
+                                                                                "nested": "rpc://google-sheets@2/rpcSheetInput"
+                                                                            },
+                                                                            {
+                                                                                "label": "A-ZZ",
+                                                                                "value": "A1:ZZ1",
+                                                                                "nested": "rpc://google-sheets@2/rpcSheetInput"
+                                                                            }
+                                                                        ],
+                                                                        "mappable": false,
+                                                                        "required": true
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ],
+                                                        "mappable": false,
+                                                        "required": true
+                                                    }
+                                                ]
+                                            },
+                                            "required": true
+                                        }
+                                    ],
+                                    "required": true
+                                }
+                            ]
+                        },
+                        "sheetId": {
+                            "mode": "chose",
+                            "label": "Registro de Correos"
+                        },
+                        "includesHeaders": {
+                            "mode": "chose",
+                            "label": "Yes",
+                            "nested": [
+                                {
+                                    "help": "When enabled, column headers are used as IDs. This allows the module to continue working even if new columns are inserted into the table, without needing to remap values.",
+                                    "name": "useColumnHeaders",
+                                    "type": "select",
+                                    "label": "Use column headers as IDs of the columns",
+                                    "nested": [
+                                        "rpc://google-sheets@2/rpcSheetInput"
+                                    ],
+                                    "default": false,
+                                    "options": [
+                                        {
+                                            "label": "Yes",
+                                            "value": true
+                                        },
+                                        {
+                                            "label": "No",
+                                            "value": false
+                                        }
+                                    ],
+                                    "mappable": false,
+                                    "required": true
+                                }
+                            ]
+                        },
+                        "useColumnHeaders": {
+                            "mode": "chose",
+                            "label": "Yes"
+                        },
+                        "valueInputOption": {
+                            "mode": "chose",
+                            "label": "User entered"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "mode",
+                        "type": "select",
+                        "label": "Search Method",
+                        "default": "select",
+                        "mappable": false,
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "select",
+                                "fromAll",
+                                "map"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "spreadsheetId",
+                        "type": "text",
+                        "label": "Spreadsheet ID",
+                        "required": true
+                    },
+                    {
+                        "name": "sheetId",
+                        "type": "select",
+                        "label": "Sheet Name",
+                        "required": true
+                    },
+                    {
+                        "name": "includesHeaders",
+                        "type": "select",
+                        "label": "Table contains headers",
+                        "default": true,
+                        "mappable": false,
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "true",
+                                "false"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "useColumnHeaders",
+                        "type": "select",
+                        "label": "Use column headers as IDs of the columns",
+                        "default": false,
+                        "mappable": false,
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "true",
+                                "false"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "values",
+                        "label": "Values in columns",
+                        "type": "collection",
+                        "spec": [
+                            {
+                                "name": "Fecha",
+                                "label": "Fecha (A)",
+                                "type": "text"
+                            },
+                            {
+                                "name": "Remitente",
+                                "label": "Remitente (B)",
+                                "type": "text"
+                            },
+                            {
+                                "name": "Asunto",
+                                "label": "Asunto (C)",
+                                "type": "text"
+                            },
+                            {
+                                "name": "Categoría",
+                                "label": "Categoría (D)",
+                                "type": "text"
+                            },
+                            {
+                                "name": "Prioridad",
+                                "label": "Prioridad (E)",
+                                "type": "text"
+                            },
+                            {
+                                "name": "Versión Make",
+                                "label": "Versión Make (F)",
+                                "type": "text"
+                            },
+                            {
+                                "name": "Respuesta Enviada",
+                                "label": "Respuesta Enviada (G)",
+                                "type": "text"
+                            }
+                        ],
+                        "metadata": [
+                            [
+                                [
+                                    "Fecha",
+                                    "Remitente",
+                                    "Asunto",
+                                    "Categoría",
+                                    "Prioridad",
+                                    "Versión Make",
+                                    "Respuesta Enviada"
+                                ]
+                            ]
+                        ]
+                    },
+                    {
+                        "name": "insertUnformatted",
+                        "type": "boolean",
+                        "label": "Unformatted",
+                        "default": false,
+                        "required": true
+                    },
+                    {
+                        "name": "valueInputOption",
+                        "type": "select",
+                        "label": "Value input option",
+                        "default": "USER_ENTERED",
+                        "advanced": true,
+                        "editable": true,
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "USER_ENTERED",
+                                "RAW"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "insertDataOption",
+                        "type": "select",
+                        "label": "Insert data option",
+                        "default": "INSERT_ROWS",
+                        "advanced": true,
+                        "editable": true,
+                        "validate": {
+                            "enum": [
+                                "INSERT_ROWS",
+                                "OVERWRITE"
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "us2.make.com",
+        "notes": []
+    }
+}

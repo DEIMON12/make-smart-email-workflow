@@ -2,10 +2,14 @@
 
 | Campo | Detalle |
 |---|---|
-| **Estado** | Implementada y probada |
+| **Estado** | Histórico: reemplazada por la [v1.1](arquitectura-v1.1.md) |
 | **Escenario** | `make-email-automation` · [`blueprints/v1-reglas.blueprint.json`](../blueprints/v1-reglas.blueprint.json) |
 | **Componente central** | Módulo [2] Router "Clasificar correo" |
 | **Fecha** | Noviembre de 2026 |
+
+> **Documento histórico.** La versión actual usa If-else + Merge y expresiones regulares; ver [`arquitectura-v1.1.md`](arquitectura-v1.1.md). Este documento se conserva porque explica el razonamiento que llevó a ese cambio.
+
+![Escenario v1 en Make](../assets/escenario-v1.png)
 
 Este documento explica cómo la v1 garantiza que **cada correo siga exactamente una ruta**, por qué se descartó dejar que un correo pase por varias rutas, cómo se compara con la alternativa **If-else + Merge** de Make y cuánto cuesta en créditos.
 
