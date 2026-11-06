@@ -42,6 +42,8 @@ Cada correo recibe **exactamente una** respuesta y genera **exactamente una** fi
 
 ## Arquitectura
 
+![Escenario v1.1 en Make](assets/escenario-v1.1.png)
+
 ```
           ┌──────────────────────────────────────────────┐
           │ [1] Gmail · Watch emails                     │
@@ -223,6 +225,7 @@ make-smart-email-workflow/
 ├── templates/
 │   └── registro-correos.csv            ← encabezados de la hoja de registro
 └── assets/
+    ├── escenario-v1.1.png              ← captura del escenario v1.1 en Make
     └── escenario-v1.png                ← captura del escenario v1 en Make
 ```
 

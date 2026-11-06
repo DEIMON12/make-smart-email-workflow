@@ -44,6 +44,8 @@ La v1.1 conserva el mismo comportamiento de la v1: cada correo se clasifica en u
 
 ## 2. Flujo
 
+![Escenario v1.1 en Make](../assets/escenario-v1.1.png)
+
 ```
           ┌──────────────────────────────────────────────┐
           │ [1] Gmail · Watch emails                     │
