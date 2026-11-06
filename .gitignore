@@ -1,0 +1,53 @@
+# ------------------------------------------------------------
+# Secretos y credenciales
+# ------------------------------------------------------------
+# Claves de API (Gemini en la v2), tokens de Make y archivos de entorno.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+client_secret*.json
+service-account*.json
+token*.json
+
+# ------------------------------------------------------------
+# Exportaciones de Make sin sanitizar
+# ------------------------------------------------------------
+# Un blueprint recién exportado incluye los nombres de tus conexiones
+# (con tu correo) y el ID de tu hoja de Google. Expórtalo aquí, limpia
+# esos datos y guarda la versión pública en blueprints/.
+blueprints/privados/
+*.private.json
+*.local.json
+
+# ------------------------------------------------------------
+# Datos reales de correos
+# ------------------------------------------------------------
+# Descargas del registro de Google Sheets con remitentes y asuntos reales.
+exports/
+*.xlsx
+*.ods
+registro-*.csv
+!templates/*.csv
+
+# ------------------------------------------------------------
+# Sistema operativo y editores
+# ------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*~
+
+# ------------------------------------------------------------
+# Herramientas (por si se agregan scripts en el futuro)
+# ------------------------------------------------------------
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+*.log
